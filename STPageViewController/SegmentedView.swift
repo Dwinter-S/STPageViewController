@@ -84,7 +84,7 @@ class SegmentedView: UIView {
     
     func setIndicator(_ indicator: SegmentedViewIndicator) {
         self.indicator = indicator
-        addSubview(indicator)
+        collectionView.addSubview(indicator)
     }
     
     deinit {
@@ -154,34 +154,35 @@ class SegmentedView: UIView {
         let index = Int(offsetPercent)
         let maxCount = items.count
         if index >= 0, index < maxCount {
-            var fromIndex: Int = index
-            var toIndex: Int = index
+            let curPercent = offsetPercent - CGFloat(index)
+            let isSelectLeft = curPercent < 0.5
+            var targetIndex: Int?
             switch scrollDirection {
-            case .left:
-                fromIndex = index + 1
-                toIndex = index
-            case .right:
-                fromIndex = index
-                toIndex = index + 1
+            case .left where curPercent < 0.5: targetIndex = index
+            case .right where curPercent > 0.5: targetIndex = index + 1
             default: ()
             }
-            fromIndex = min(fromIndex, maxCount)
-            toIndex = min(toIndex, maxCount)
-            let toItemWidth = sizeForItem(at: toIndex, isSelected: true).width
-            var preSumIndex = max(toIndex - 1, 0)
-            let indicatorCenterX = itemNormalWidthPrefixSums[preSumIndex] + itemSpacing + toItemWidth / 2
+            if let targetIndex = targetIndex, targetIndex != selectedIndex {
+                selectItem(at: targetIndex)
+            }
+            let leftItemSize = sizeForItem(at: index, isSelected: isSelectLeft)
+            let rightItemSize = sizeForItem(at: min(maxCount - 1, index + 1), isSelected: !isSelectLeft)
+            let distance = leftItemSize.width / 2 + itemSpacing + rightItemSize.width / 2
+            let indicatorCenterX = contentEdgeInsets.left + itemNormalWidthPrefixSums[index] + leftItemSize.width / 2 + distance * curPercent
             indicator.frame.origin = CGPoint(x: indicatorCenterX - indicator.size.width / 2, y: bounds.height - indicator.size.height + indicator.verticalOffset)
             indicator.frame.size = indicator.size
+            print("?????\(indicator.frame)")
         }
     }
     
     private func setItemWidthPrefixSums() {
-        var itemNormalWidthPrefixSums = [CGFloat]()
+        var itemNormalWidthPrefixSums: [CGFloat] = [0]
         var preSumWith: CGFloat = 0
         for index in 0..<items.count {
-            preSumWith += sizeForItem(at: index, isSelected: false).width
+            preSumWith += sizeForItem(at: index, isSelected: false).width + itemSpacing
             itemNormalWidthPrefixSums.append(preSumWith)
         }
+//        print("????\(itemNormalWidthPrefixSums)")
         self.itemNormalWidthPrefixSums = itemNormalWidthPrefixSums
     }
     
