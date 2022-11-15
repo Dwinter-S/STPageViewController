@@ -21,7 +21,7 @@ protocol PageListDataSource: AnyObject {
     @objc optional func pageListScrollViewWillBeginDecelerating(_ scrollView: UIScrollView)
     @objc optional func pageListScrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     @objc optional func pageListScrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView)
-    
+    @objc optional func didScrollToPageView(at index: Int)
 }
 
 class PageListContainerView: UIView {
@@ -43,7 +43,6 @@ class PageListContainerView: UIView {
     private(set) var currentPageIndex: Int = 0
     /// 已经加载的视图
     private(set) var loadedPages = [Int : UIView]()
-    private var contentOffsetObservation: NSKeyValueObservation?
     
     weak var dataSource: PageListDataSource?
     weak var delegate: PageListDelegate?
@@ -129,10 +128,11 @@ class PageListContainerView: UIView {
             loadPageView(at: index)
         }
         currentPageIndex = index
+        delegate?.didScrollToPageView?(at: index)
     }
-//    private func
 
 }
+
 
 extension PageListContainerView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

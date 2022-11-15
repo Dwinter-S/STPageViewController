@@ -16,14 +16,13 @@ class SegmentedViewTextImageItemCell: SegmentedViewBaseItemCell {
         contentView.addSubview(textLabel)
     }
     
-    override func setItemModel<T: SegmentedViewItemProtocol>(_ itemModel: T) {
+    override func setItemModel(_ itemModel: SegmentedViewItemProtocol) {
         super.setItemModel(itemModel)
-        guard let textImageItemModel = itemModel as? SegmentedViewTextImageItemModel else {
+        guard let appearance = itemModel.currentAppearance as? SegmentedTextImageItemAppearance else {
             return
         }
 //        self.textImageItemModel = textImageItemModel
-        let appearance = textImageItemModel.isSelected ? textImageItemModel.selectedAppearance : textImageItemModel.normalAppearance
-        textLabel.text = textImageItemModel.title
+        textLabel.text = appearance.title
         textLabel.font = appearance.font
         textLabel.textColor = appearance.textColor
     }

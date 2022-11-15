@@ -13,8 +13,8 @@
 		9A318B40291E5CA50094AF5F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A318B3E291E5CA50094AF5F /* Main.storyboard */; };
 		9A318B42291E5CA60094AF5F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A318B41291E5CA60094AF5F /* Assets.xcassets */; };
 		9A318B45291E5CA60094AF5F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9A318B43291E5CA60094AF5F /* LaunchScreen.storyboard */; };
-		9A318B52291E5CC60094AF5F /* SegmentedViewBaseItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4C291E5CC40094AF5F /* SegmentedViewBaseItemModel.swift */; };
-		9A318B53291E5CC60094AF5F /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4D291E5CC40094AF5F /* PageViewController.swift */; };
+		9A318B52291E5CC60094AF5F /* SegmentedViewItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4C291E5CC40094AF5F /* SegmentedViewItemProtocol.swift */; };
+		9A318B53291E5CC60094AF5F /* PageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4D291E5CC40094AF5F /* PageListViewController.swift */; };
 		9A318B54291E5CC60094AF5F /* PageListContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4E291E5CC50094AF5F /* PageListContainerView.swift */; };
 		9A318B55291E5CC60094AF5F /* SegmentedItemAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B4F291E5CC50094AF5F /* SegmentedItemAppearance.swift */; };
 		9A318B56291E5CC60094AF5F /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B50291E5CC60094AF5F /* SegmentedView.swift */; };
@@ -22,6 +22,7 @@
 		9A318B5F2922274F0094AF5F /* SegmentedViewTextImageItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B5E2922274F0094AF5F /* SegmentedViewTextImageItemModel.swift */; };
 		9A318B61292229770094AF5F /* SegmentedTextImageItemAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B60292229770094AF5F /* SegmentedTextImageItemAppearance.swift */; };
 		9A318B6329222DFF0094AF5F /* SegmentedViewBaseItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B6229222DFF0094AF5F /* SegmentedViewBaseItemCell.swift */; };
+		9A318B85292354830094AF5F /* SegmentedViewIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A318B84292354830094AF5F /* SegmentedViewIndicator.swift */; };
 		BC58297D40B910D5A335C832 /* Pods_STPageViewController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA1DDF1CD5A7D67193F0383F /* Pods_STPageViewController.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,8 +37,8 @@
 		9A318B41291E5CA60094AF5F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9A318B44291E5CA60094AF5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9A318B46291E5CA60094AF5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9A318B4C291E5CC40094AF5F /* SegmentedViewBaseItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedViewBaseItemModel.swift; sourceTree = "<group>"; };
-		9A318B4D291E5CC40094AF5F /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		9A318B4C291E5CC40094AF5F /* SegmentedViewItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedViewItemProtocol.swift; sourceTree = "<group>"; };
+		9A318B4D291E5CC40094AF5F /* PageListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageListViewController.swift; sourceTree = "<group>"; };
 		9A318B4E291E5CC50094AF5F /* PageListContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageListContainerView.swift; sourceTree = "<group>"; };
 		9A318B4F291E5CC50094AF5F /* SegmentedItemAppearance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedItemAppearance.swift; sourceTree = "<group>"; };
 		9A318B50291E5CC60094AF5F /* SegmentedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
@@ -45,6 +46,7 @@
 		9A318B5E2922274F0094AF5F /* SegmentedViewTextImageItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedViewTextImageItemModel.swift; sourceTree = "<group>"; };
 		9A318B60292229770094AF5F /* SegmentedTextImageItemAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedTextImageItemAppearance.swift; sourceTree = "<group>"; };
 		9A318B6229222DFF0094AF5F /* SegmentedViewBaseItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedViewBaseItemCell.swift; sourceTree = "<group>"; };
+		9A318B84292354830094AF5F /* SegmentedViewIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedViewIndicator.swift; sourceTree = "<group>"; };
 		BA1DDF1CD5A7D67193F0383F /* Pods_STPageViewController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_STPageViewController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -94,14 +96,15 @@
 				9A318B3A291E5CA50094AF5F /* SceneDelegate.swift */,
 				9A318B3C291E5CA50094AF5F /* ViewController.swift */,
 				9A318B4E291E5CC50094AF5F /* PageListContainerView.swift */,
-				9A318B4D291E5CC40094AF5F /* PageViewController.swift */,
+				9A318B4D291E5CC40094AF5F /* PageListViewController.swift */,
 				9A318B60292229770094AF5F /* SegmentedTextImageItemAppearance.swift */,
 				9A318B4F291E5CC50094AF5F /* SegmentedItemAppearance.swift */,
 				9A318B50291E5CC60094AF5F /* SegmentedView.swift */,
+				9A318B84292354830094AF5F /* SegmentedViewIndicator.swift */,
 				9A318B51291E5CC60094AF5F /* SegmentedViewTextImageItemCell.swift */,
 				9A318B6229222DFF0094AF5F /* SegmentedViewBaseItemCell.swift */,
 				9A318B5E2922274F0094AF5F /* SegmentedViewTextImageItemModel.swift */,
-				9A318B4C291E5CC40094AF5F /* SegmentedViewBaseItemModel.swift */,
+				9A318B4C291E5CC40094AF5F /* SegmentedViewItemProtocol.swift */,
 				9A318B3E291E5CA50094AF5F /* Main.storyboard */,
 				9A318B41291E5CA60094AF5F /* Assets.xcassets */,
 				9A318B43291E5CA60094AF5F /* LaunchScreen.storyboard */,
@@ -234,13 +237,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				9A318B3D291E5CA50094AF5F /* ViewController.swift in Sources */,
-				9A318B53291E5CC60094AF5F /* PageViewController.swift in Sources */,
+				9A318B53291E5CC60094AF5F /* PageListViewController.swift in Sources */,
 				9A318B39291E5CA50094AF5F /* AppDelegate.swift in Sources */,
+				9A318B85292354830094AF5F /* SegmentedViewIndicator.swift in Sources */,
 				9A318B6329222DFF0094AF5F /* SegmentedViewBaseItemCell.swift in Sources */,
 				9A318B5F2922274F0094AF5F /* SegmentedViewTextImageItemModel.swift in Sources */,
 				9A318B61292229770094AF5F /* SegmentedTextImageItemAppearance.swift in Sources */,
 				9A318B54291E5CC60094AF5F /* PageListContainerView.swift in Sources */,
-				9A318B52291E5CC60094AF5F /* SegmentedViewBaseItemModel.swift in Sources */,
+				9A318B52291E5CC60094AF5F /* SegmentedViewItemProtocol.swift in Sources */,
 				9A318B57291E5CC60094AF5F /* SegmentedViewTextImageItemCell.swift in Sources */,
 				9A318B56291E5CC60094AF5F /* SegmentedView.swift in Sources */,
 				9A318B3B291E5CA50094AF5F /* SceneDelegate.swift in Sources */,

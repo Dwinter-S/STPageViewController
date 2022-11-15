@@ -24,9 +24,9 @@ class SegmentedViewBaseItemCell: UICollectionViewCell {
         
     }
     
-    func setItemModel<T: SegmentedViewItemProtocol>(_ itemModel: T) {
+    func setItemModel(_ itemModel: SegmentedViewItemProtocol) {
         self.itemModel = itemModel
-        let appearance = itemModel.isSelected ? itemModel.selectedAppearance : itemModel.normalAppearance
+        let appearance = itemModel.currentAppearance.baseAppearance
         backgroundColor = appearance.backgroundColor
         contentView.backgroundColor = appearance.contentBackgroundColor
         layer.borderColor = appearance.borderColor.cgColor
@@ -38,7 +38,7 @@ class SegmentedViewBaseItemCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let itemModel = itemModel else { return }
-        let appearance = itemModel.isSelected ? itemModel.selectedAppearance : itemModel.normalAppearance
-        contentView.frame = bounds.inset(by: appearance.contentEdgeInsets)
+        let appearance = itemModel.currentAppearance
+        contentView.frame = bounds.inset(by: appearance.baseAppearance.contentEdgeInsets)
     }
 }
