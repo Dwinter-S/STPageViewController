@@ -21,10 +21,18 @@ protocol PageListDataSource: AnyObject {
     @objc optional func pageListScrollViewWillBeginDecelerating(_ scrollView: UIScrollView)
     @objc optional func pageListScrollViewDidEndDecelerating(_ scrollView: UIScrollView)
     @objc optional func pageListScrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView)
-    @objc optional func didScrollToPageView(at index: Int)
+    @objc optional func didEndScrollingOnPageView(at index: Int, isCodeScroll: Bool)
+    @objc optional func didScrollToPageView(at index: Int, isCodeScroll: Bool)
+    @objc optional func pageViewDidLoad(at index: Int)
 }
 
 class PageListContainerView: UIView {
+    
+    enum LoadPageStrategy {
+        case allLoad
+        case scrollEnd
+        case scrollPercent(CGFloat)
+    }
     
     lazy var scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -40,12 +48,19 @@ class PageListContainerView: UIView {
     /// 初始选中页下标
     private var initialPageIndex: Int = 0
     /// 当前选中页下标
-    private(set) var currentPageIndex: Int = 0
+    private(set) var currentPageIndex: Int = 0 {
+        didSet {
+            scrollingIndex = currentPageIndex
+        }
+    }
     /// 已经加载的视图
     private(set) var loadedPages = [Int : UIView]()
+    private var scrollingIndex: Int = 0
+    private var preContentOffsetX: CGFloat = 0
     
     weak var dataSource: PageListDataSource?
     weak var delegate: PageListDelegate?
+    var loadPageStrategy: LoadPageStrategy = .scrollPercent(0.5)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,7 +96,7 @@ class PageListContainerView: UIView {
     func scrollToPage(at index: Int, animated: Bool) {
         scrollView.setContentOffset(CGPoint(x: scrollView.bounds.width * CGFloat(index), y: 0), animated: animated)
         if !animated {
-            didScrollToPageView(at: index)
+            delegate?.didEndScrollingOnPageView?(at: index, isCodeScroll: true)
         }
     }
     
@@ -100,6 +115,7 @@ class PageListContainerView: UIView {
             currentPageIndex = initialPageIndex
         }
         loadPageView(at: currentPageIndex)
+        setNeedsLayout()
     }
     
     override func layoutSubviews() {
@@ -123,12 +139,11 @@ class PageListContainerView: UIView {
             }
         }
     }
-    private func didScrollToPageView(at index: Int) {
+    private func loadPageIfNeeded(at index: Int) {
         if loadedPages[index] == nil {
             loadPageView(at: index)
         }
-        currentPageIndex = index
-        delegate?.didScrollToPageView?(at: index)
+        delegate?.pageViewDidLoad?(at: index)
     }
 
 }
@@ -137,13 +152,41 @@ class PageListContainerView: UIView {
 extension PageListContainerView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        didScrollToPageView(at: index)
-        
+        currentPageIndex = index
+        loadPageIfNeeded(at: index)
+        delegate?.didEndScrollingOnPageView?(at: index, isCodeScroll: false)
         delegate?.pageListScrollViewDidEndDecelerating?(scrollView)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         delegate?.pageListScrollViewDidScroll?(scrollView)
+        
+        let isCodeScroll = !(scrollView.isTracking || scrollView.isDecelerating)
+        if scrollView.contentOffset.x <= CGFloat(scrollingIndex - 1) * scrollView.bounds.width {
+            scrollingIndex -= 1
+            delegate?.didScrollToPageView?(at: scrollingIndex, isCodeScroll: isCodeScroll)
+        } else if scrollView.contentOffset.x >= CGFloat(scrollingIndex + 1) * scrollView.bounds.width {
+            scrollingIndex += 1
+            delegate?.didScrollToPageView?(at: scrollingIndex, isCodeScroll: isCodeScroll)
+        }
+        if case let .scrollPercent(percent) = loadPageStrategy, !isCodeScroll {
+            let currentPercent = (scrollView.contentOffset.x / scrollView.bounds.width).truncatingRemainder(dividingBy: 1)
+            let scrollDirection: ScrollDirection = scrollView.contentOffset.x > preContentOffsetX ? .right : .left
+            if scrollDirection == .left && currentPercent < 1 - percent {
+                let targetIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+                if targetIndex != currentPageIndex {
+                    loadPageIfNeeded(at: targetIndex)
+                }
+                print("???左 \(currentPercent) \(percent) \(targetIndex)")
+            } else if scrollDirection == .right && currentPercent > percent {
+                let targetIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width) + 1
+                if targetIndex != currentPageIndex {
+                    loadPageIfNeeded(at: targetIndex)
+                }
+                print("???右 \(currentPercent) \(percent) \(targetIndex)")
+            }
+        }
+        preContentOffsetX = scrollView.contentOffset.x
     }
     
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -156,6 +199,11 @@ extension PageListContainerView: UIScrollViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         delegate?.pageListScrollViewDidEndDragging?(scrollView, willDecelerate: decelerate)
+        if !decelerate {
+            let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+            currentPageIndex = index
+            loadPageIfNeeded(at: index)
+        }
     }
 
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -164,7 +212,9 @@ extension PageListContainerView: UIScrollViewDelegate {
 
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let index = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        didScrollToPageView(at: index)
+        currentPageIndex = index
+        loadPageIfNeeded(at: index)
+        delegate?.didEndScrollingOnPageView?(at: index, isCodeScroll: true)
         delegate?.pageListScrollViewDidEndScrollingAnimation?(scrollView)
     }
 }

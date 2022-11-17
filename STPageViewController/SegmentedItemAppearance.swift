@@ -12,6 +12,18 @@ protocol SegmentedViewItemAppearance {
     var itemSize: CGSize { get }
 }
 
+class SegmentedViewRedDot {
+    let size: CGSize
+    let color: UIColor
+    var offset: CGPoint
+    var display: Bool = false
+    init(size: CGSize, color: UIColor, offset: CGPoint = .zero) {
+        self.size = size
+        self.color = color
+        self.offset = offset
+    }
+}
+
 struct SegmentedViewItemBaseAppearance {
     var contentEdgeInsets: UIEdgeInsets = .zero
     var backgroundColor: UIColor = .clear

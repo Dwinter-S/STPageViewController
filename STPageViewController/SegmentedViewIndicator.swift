@@ -8,21 +8,21 @@
 import UIKit
 
 protocol SegmentedViewIndicator where Self: UIView {
-    var size: CGSize { get set }
+    var indicatorSize: CGSize { get set }
     var verticalOffset: CGFloat { get set }
 }
 
 class SegmentedViewLineIndicator: UIView, SegmentedViewIndicator {
-    var size: CGSize
+    var indicatorSize: CGSize
     var verticalOffset: CGFloat = 0
     init(size: CGSize, verticalOffset: CGFloat = 0) {
-        self.size = size
+        self.indicatorSize = size
         self.verticalOffset = verticalOffset
         super.init(frame: .zero)
     }
     
     required init?(coder: NSCoder) {
-        self.size = .zero
+        self.indicatorSize = .zero
         super.init(coder: coder)
     }
 }

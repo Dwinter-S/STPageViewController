@@ -22,11 +22,14 @@ class SegmentedViewTextImageItemCell: SegmentedViewBaseItemCell {
             return
         }
 //        self.textImageItemModel = textImageItemModel
-        textLabel.text = appearance.title
-        textLabel.font = appearance.font
-        textLabel.textColor = appearance.textColor
+        if let attributeText = appearance.attributeText {
+            textLabel.attributedText = attributeText
+        } else {
+            textLabel.text = appearance.text
+            textLabel.font = appearance.font
+            textLabel.textColor = appearance.textColor
+        }
     }
-    
     
     override func layoutSubviews() {
         super.layoutSubviews()

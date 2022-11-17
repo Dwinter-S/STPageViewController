@@ -9,7 +9,7 @@ import UIKit
 
 class SegmentedViewBaseItemCell: UICollectionViewCell {
     var itemModel: SegmentedViewItemProtocol?
-    
+    lazy var redPointView = UIView()
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -34,6 +34,19 @@ class SegmentedViewBaseItemCell: UICollectionViewCell {
         layer.cornerRadius = appearance.cornerRadius
     }
     
+    func setRedDot(_ redDotInfo: SegmentedViewRedDot) {
+        if redPointView.superview == nil {
+            contentView.addSubview(redPointView)
+            redPointView.snp.makeConstraints {
+                $0.top.equalTo(redDotInfo.offset.y)
+                $0.right.equalTo(redDotInfo.offset.x)
+                $0.size.equalTo(redDotInfo.size)
+            }
+            redPointView.backgroundColor = redDotInfo.color
+            redPointView.layer.cornerRadius = redDotInfo.size.width / 2
+        }
+        redPointView.isHidden = !redDotInfo.display
+    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
